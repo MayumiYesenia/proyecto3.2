@@ -1,6 +1,6 @@
 // HomeScreen.js
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, DrawerLayoutAndroid  } from 'react-native';
 import axios from 'axios';
 import { REACT_APP_BACKEND_URL } from '@env';
 
@@ -45,8 +45,25 @@ const HomeScreen = () => {
         setData(filteredData);
         setCurrentPage(1);  // Restablece la página actual después de la búsqueda
       };
-
+    
+    const drawerRef = React.createRef();
+    const navigationView = (
+        <View style={styles.drawerContainer}>
+          <TouchableOpacity onPress={() => console.log('Go to Ratings')}>
+            <Text style={styles.drawerItem}>Ratings</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => console.log('Go to Favorites')}>
+            <Text style={styles.drawerItem}>Favorites</Text>
+          </TouchableOpacity>
+        </View>
+      );
         return (
+            <DrawerLayoutAndroid
+      ref={drawerRef}
+      drawerWidth={200}
+      drawerPosition={DrawerLayoutAndroid.positions.Left}
+      renderNavigationView={() => navigationView}
+    >
             <View style={styles.container}>
               <View style={styles.searchContainer}>
                 <TextInput
@@ -66,7 +83,10 @@ const HomeScreen = () => {
                   {paginate(data, itemsPerPage, currentPage).map((element, index) => (
                     <View key={index} style={styles.imageRow}>
                       {typeof element.fotos === 'string' ? (
+                        <View>
                         <Image style={styles.image} source={{ uri: element.fotos }} />
+                        <Text style={styles.imageText}>{element.nombre}</Text>
+                        </View>
                       ) : (
                         <View style={styles.errorContainer}>
                           <Text style={styles.errorText}>Invalid Image URL</Text>
@@ -97,65 +117,102 @@ const HomeScreen = () => {
             >
                 <Text>Next</Text>
             </TouchableOpacity>
+            <TouchableOpacity
+            style={styles.paginationButton}
+            onPress={() => handlePageChange(Math.ceil(data.length / itemsPerPage))}
+            disabled={currentPage * itemsPerPage >= data.length}
+            >
+            <Text>Last</Text>
+            </TouchableOpacity>
+
             </View>
         </View>
         )}
     </View>
+    </DrawerLayoutAndroid>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
     },
-    imageContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      width: '100%',
+      padding: 10,
     },
-    imageRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 5,
+    menuButton: {
+      fontSize: 18,
+      fontWeight: 'bold',
     },
-    image: {
-    width: 100,
-    height: 100,
-    margin: 5,
+    headerText: {
+      fontSize: 20,
+      fontWeight: 'bold',
     },
-    paginationContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 10,
+    drawerContainer: {
+      flex: 1,
+      backgroundColor: '#fff',
+      padding: 20,
     },
-    paginationButton: {
-    padding: 10,
-    marginHorizontal: 5,
-    backgroundColor: '#eee',
-    borderRadius: 5,
+    drawerItem: {
+      fontSize: 18,
+      marginBottom: 10,
     },
     searchContainer: {
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        margin: 10,
-        alignItems: 'center',
-      },
-      searchInput: {
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        marginRight: 10,
-        padding: 5,
-        flex: 1,
-      },
-      searchButton: {
-        padding: 10,
-        backgroundColor: '#eee',
-        borderRadius: 5,
-      },
-});
+      flexDirection: 'row',
+      justifyContent: 'flex-end',
+      margin: 10,
+      alignItems: 'center',
+    },
+    searchInput: {
+      height: 40,
+      borderColor: 'gray',
+      borderWidth: 1,
+      marginRight: 10,
+      padding: 5,
+      flex: 1,
+    },
+    searchButton: {
+      padding: 10,
+      backgroundColor: '#eee',
+      borderRadius: 5,
+    },
+    imageContainer: {
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    imageRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginVertical: 5,
+    },
+    image: {
+      width: 100,
+      height: 100,
+      margin: 5,
+    },
+    imageText: {
+      fontSize: 16,
+      marginTop: 5,
+    },
+    paginationContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 10,
+    },
+    paginationButton: {
+      padding: 10,
+      marginHorizontal: 5,
+      backgroundColor: '#eee',
+      borderRadius: 5,
+    },
+  });
 
 export default HomeScreen;
