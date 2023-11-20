@@ -20,6 +20,8 @@ public class Mascota {
 
     @Column(name = "cantidad")
     private int cantidad;
+    @Column(name = "foto")
+    private String foto;
 
     @ManyToOne
     @JoinColumn(name = "idusuario", nullable = false)
@@ -29,11 +31,12 @@ public class Mascota {
     public Mascota() {
     }
 
-    public Mascota(String nombre, String tipo, int edad, int cantidad, Usuario usuario) {
+    public Mascota(String nombre, String tipo, int edad, int cantidad,  String foto,Usuario usuario) {
         this.nombre = nombre;
         this.tipo = tipo;
         this.edad = edad;
         this.cantidad = cantidad;
+        this.foto = foto;
         this.usuario = usuario;
     }
 
@@ -79,6 +82,12 @@ public class Mascota {
         this.cantidad = cantidad;
     }
 
+    public String getFoto() {
+        return foto;
+    }
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
     public Usuario getUsuario() {
         return usuario;
     }

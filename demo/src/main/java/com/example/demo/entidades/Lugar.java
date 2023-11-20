@@ -22,20 +22,41 @@ public class Lugar {
     @Column(name = "telefono")
     private String telefono;
 
+    @Column(name = "direccion", columnDefinition = "TEXT")
+    private String direccion;
+
+    @Column(name = "fotos", columnDefinition = "TEXT")
+    private String fotos;
+
+    @Column(name = "horario", columnDefinition = "TEXT")
+    private String horario;
+
+    @Column(name = "latitud")
+    private double latitud;
+
+    @Column(name = "longitud")
+    private double longitud;
+
+
     @OneToMany(mappedBy = "lugar", cascade = CascadeType.ALL)
     private List<Reserva> reservas;
 
     public Lugar() {
     }
 
-    public Lugar(String nombre, double rating, String estado, String telefono) {
+    public Lugar(String nombre, double rating, String estado, String telefono, String direccion, String fotos, String horario, double latitud, double longitud) {
         this.nombre = nombre;
         this.rating = rating;
         this.estado = estado;
         this.telefono = telefono;
+        this.direccion = direccion;
+        this.fotos = fotos;
+        this.horario = horario;
+        this.latitud = latitud;
+        this.longitud = longitud;
     }
 
-    // Getters y setters
+   
 
     public Long getIdLugar() {
         return idLugar;
@@ -69,12 +90,53 @@ public class Lugar {
         this.estado = estado;
     }
 
+   
     public String getTelefono() {
         return telefono;
     }
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+    
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getFotos() {
+        return fotos;
+    }
+
+    public void setFotos(String fotos) {
+        this.fotos = fotos;
+    }
+
+    public String getHorario() {
+        return horario;
+    }
+
+    public void setHorario(String horario) {
+        this.horario = horario;
+    }
+
+    public double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(double latitud) {
+        this.latitud = latitud;
+    }
+
+    public double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
     }
 
     public List<Reserva> getReservas() {
