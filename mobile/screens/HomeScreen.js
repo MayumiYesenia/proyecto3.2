@@ -8,9 +8,9 @@ const HomeScreen = ({ navigation })  => {
     const [data, setData] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchText, setSearchText] = useState('');
-const handleAdd = () => {
+const handleAdd = (element) => {
       // Implementa la navegación a tu pantalla deseada 
-      navigation.navigate('Reservas');
+      navigation.navigate('Reservas',{imageData:element});
     };
   
     useEffect(() => {
@@ -86,8 +86,9 @@ const handleAdd = () => {
                         {paginate(data, itemsPerPage, currentPage).map((element, index) => (
                             <View key={index} style={styles.imageFrame}>
                                 {typeof element.fotos === 'string' ? (
-                                    <Image style={styles.image} source={{ uri: element.fotos }} />
-                                ) : (
+ <TouchableOpacity onPress={() => handleAdd(element)}>
+ <Image style={styles.image} source={{ uri: element.fotos }} />
+</TouchableOpacity>                                ) : (
                                     <View style={styles.errorContainer}>
                                         <Text style={styles.errorText}>Invalid Image URL</Text>
                                     </View>
