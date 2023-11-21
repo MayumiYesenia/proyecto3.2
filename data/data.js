@@ -1,13 +1,4 @@
 const axios = require('axios');
-const { Pool } = require('pg');
-const pool = new Pool({
-    user: 'yesenia',
-    host: 'localhost',
-    database: 'datos',
-    password: '75280140',
-    port: 5432,
-  });
-
 const apiKey = 'AIzaSyDRf_LfTqh1MJ4wET-ATwCLAJ30EkJd8Og';
 const searchQuery = 'Veterinaria Barranco';
 const apiUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchQuery}&key=${apiKey}`;
@@ -81,19 +72,6 @@ async function main() {
           console.log('openingHours:', openingHoursJson);
           console.log('Número de teléfono: ' + phone);
           const latitude = result.geometry.location.lat;
-const longitude = result.geometry.location.lng;
-
-const insertQuery =
-  'INSERT INTO lugar (nombre, telefono, direccion, rating, fotos, estado, latitud, longitud, horario) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)';
-const direccionRecortada = address.substring(0, 255);
-const values = [name, phone, direccionRecortada ,rating, photoUrl, business_status, latitude, longitude, openingHoursJson];
-
-
-const safeValues = values.map(value => (value === undefined ? null : value));
-
-await pool.query(insertQuery, safeValues);
-console.log('Datos insertados en la base de datos con ID:', placeId);
-
         }
         else {
           console.error('No se encontró información de horarios para este lugar.');

@@ -1,5 +1,7 @@
 package com.example.demo.entidades;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -13,12 +15,12 @@ public class Reserva {
     @Column(name = "nombre")
     private String nombre;
 
-    @Column(name = "fechainicio")
-    private String fechaInicio;
-
-    @Column(name = "fechasalida")
-    private String fechaSalida;
-
+    @Column(name = "fechaInicio", columnDefinition = "DATE")
+    private LocalDate fechaInicio;
+    
+    @Column(name = "fechasalida", columnDefinition = "DATE")
+    private LocalDate fechaSalida;
+    
     @Column(name = "costo")
     private double costo;
 
@@ -36,7 +38,7 @@ public class Reserva {
     public Reserva() {
     }
 
-    public Reserva(String nombre, String fechaInicio, String fechaSalida, double costo, String formaPago, Usuario usuario, Lugar lugar) {
+    public Reserva(String nombre,LocalDate fechaInicio,LocalDate fechaSalida, double costo, String formaPago, Usuario usuario, Lugar lugar) {
         this.nombre = nombre;
         this.fechaInicio = fechaInicio;
         this.fechaSalida = fechaSalida;
@@ -61,19 +63,19 @@ public class Reserva {
         this.nombre = nombre;
     }
 
-    public String getFechaInicio() {
+    public LocalDate getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(String fechaInicio) {
+    public void setFechaInicio(LocalDate fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public String getFechaSalida() {
+    public LocalDate getFechaSalida() {
         return fechaSalida;
     }
 
-    public void setFechaSalida(String fechaSalida) {
+    public void setFechaSalida(LocalDate fechaSalida) {
         this.fechaSalida = fechaSalida;
     }
 
